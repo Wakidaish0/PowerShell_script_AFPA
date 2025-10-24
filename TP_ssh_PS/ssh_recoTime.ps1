@@ -13,7 +13,7 @@ $credential = New-Object System.Management.Automation.PSCredential($user, $pass)
 $session = $null
 try {
     $session = New-SSHSession -ComputerName $ip -Port $port -Credential $credential -AcceptKey
-    if ($session -and $session.SessionId) {
+    if ($session -and $session.SessionId) {  #SessionId = token coté session powershell pour connexion SSH
         Write-Host "Session SSH etablie."
     } else {
         Write-Host "Erreur : session SSH non etablie."
@@ -29,9 +29,8 @@ try {
     # Invoke-SSHCommand envoyer une commande a la machine distante (Linux).
     # SessionId, le serveur sait que c'est la meme session/connexion qui fait la demande (en gros il dit : "c'est encore moi qui passe !").
     # On verifie si le service apache2 :
-    # .Output reference ce que le serveur retourne, .Trim() enleve les espaces et retours a la ligne pour ne garder que le texte utile.
     $outputStatusRaw = Invoke-SSHCommand -SessionId $session.SessionId -Command "systemctl status apache2 2>&1"
-    $statusText = $outputStatusRaw.Output.Trim()
+    $statusText = $outputStatusRaw.Output.Trim() # .Output reference ce que le serveur retourne, .Trim() enleve les espaces et retours a la ligne pour ne garder que le texte utile.
 
     # On verifie l'existence du service en cherchant "could not be found" dans la sortie
     if ($statusText -like "*could not be found*") {
