@@ -1,0 +1,138 @@
+Création d'objets "custom"
+Il est tout a fait possible de créer ses propres objets avec powershell, ( grâce au type [PSCustomObject] )  ces objets auront donc les propriétés que vous souhaitez : 
+exemple, je crée l'objet voiture avec les propriétés : marque, modèle, couleur, typecarburant, cylindrée
+et nous pourront ensuite créer une liste d'objets, donc dans ce cas, une liste de voitures.
+ 
+<# 
+
+Dans cet exemple, on crée un objet "voiture" avec les propriétés suivantes :
+
+- Marque
+
+- Modèle
+
+- Couleur
+
+- TypeCarburant
+
+- Cylindrée
+
+#>
+ 
+# Création d'un objet voiture
+
+$voiture1 = [PSCustomObject]@{
+
+    Marque        = "Renault"
+
+    Modèle        = "Clio"
+
+    Couleur       = "Rouge"
+
+    TypeCarburant = "Essence"
+
+    Cylindrée     = 1200
+
+}
+ 
+# Affichage de l'objet
+
+Write-Host "Voici ma première voiture :"
+
+$voiture1
+ 
+ 
+ensuite on peut créer une fonction à qui on passe les parametes pour créer l'objet et l'ajouter dans une liste :
+ 
+<# 
+
+Ce script montre comment :
+
+- Créer une fonction PowerShell qui fabrique un objet personnalisé "voiture"
+
+- Ajouter automatiquement cet objet dans une liste (tableau)
+
+- Afficher ensuite toutes les voitures ajoutées
+ 
+Fonctionnement :
+
+- Déclaration d'une liste vide (liste globale de voitures)
+
+- Définition d'une fonction `Nouvelle-Voiture` avec des paramètres
+
+- Appel de la fonction plusieurs fois avec différentes valeurs
+
+- Affichage de la liste finale
+
+#>
+ 
+# --- Étape 1 : Créer une liste vide pour stocker les voitures ---
+
+$listeVoitures = @()
+ 
+# --- Étape 2 : Créer une fonction pour générer une voiture ---
+
+function Nouvelle-Voiture {
+
+    param (
+
+        [string]$Marque,
+
+        [string]$Modèle,
+
+        [string]$Couleur,
+
+        [string]$TypeCarburant,
+
+        [int]$Cylindrée
+
+    )
+ 
+    <#
+
+    Cette fonction crée un objet [PSCustomObject]
+
+    représentant une voiture, puis l’ajoute dans la liste $listeVoitures.
+
+    #>
+ 
+    # Création de l’objet voiture
+
+    $voiture = [PSCustomObject]@{
+
+        Marque        = $Marque
+
+        Modèle        = $Modèle
+
+        Couleur       = $Couleur
+
+        TypeCarburant = $TypeCarburant
+
+        Cylindrée     = $Cylindrée
+
+    }
+ 
+    # Ajout dans la liste globale ( notez la portée de la variable avec $script )
+
+    $script:listeVoitures += $voiture
+ 
+    # Retourne l’objet créé (affichage optionnel)
+
+    return $voiture
+
+}
+ 
+# --- Étape 3 : Appel de la fonction plusieurs fois ---
+
+Nouvelle-Voiture -Marque "Renault" -Modèle "Clio" -Couleur "Rouge" -TypeCarburant "Essence" -Cylindrée 1200
+
+Nouvelle-Voiture -Marque "Tesla" -Modèle "Model 3" -Couleur "Blanc" -TypeCarburant "Électrique" -Cylindrée 0
+
+Nouvelle-Voiture -Marque "Peugeot" -Modèle "308" -Couleur "Bleu" -TypeCarburant "Diesel" -Cylindrée 1500
+ 
+# --- Étape 4 : Affichage de la liste finale ---
+
+Write-Host "`n== Liste complète des voitures =="
+
+$listeVoitures
+ 

@@ -1,0 +1,22 @@
+TP objets
+création d'objets : 
+ubiuser, qui aura comme propriétés : 
+*** un userAD (via son upn) , 
+une ip dédiée, 
+un service, 
+une spécialité ( code / infra / devops / compta / gestion / commerce ), 
+une liste d'applications ( autre objet ) 
+ 
+ 
+Un autre objet "applications" cet objet application a pour propriété : 
+*** nom, 
+version, 
+editeur, 
+licence propriétaire /  open-source ( true / false )
+ 
+ 
+votre code doit permettre d'ajouter, lister (trié par nom), supprimer des objets
+votre code doit permettre de modifier des propriétés d'objets
+ 
+permettre un affichage qui permette d'obtenir toutes les informations d'un ubiuser
+ 
